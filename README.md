@@ -104,8 +104,8 @@ Para o teste, queremos que você aplique seus conhecimentos e melhore os testes 
 
 - [ ] Instalar storybook no projeto
 - [ ] Fazer teste de 5 componentes
-- [ ] Fazer teste de tela
 - [ ] Atualizar o README com instruções de instalação e execução dos testes
+- [ ] Fazer teste de tela (bônus)
 
 Ficamos no aguardo do seu envio!
 
