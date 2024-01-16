@@ -1,0 +1,18 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "module" : "esnext",
+    "paths": {
+      "@components/*": ["./src/components/*"],
+        "@helpers/*": ["./src/helpers/*"],
+        "@screen/*": ["./src/screen/*"],
+        "@store/*": ["./src/store/*"],
+        "@styles/*": ["./src/styles/*"],
+        "@utils/*": ["./src/utils/*"],
+        "@services/*": ["./src/services/*"],
+        "@theme/*": ["./src/theme/*"],
+        "@assets/*": ["./src/assets/*"],
+    },
+  }
+}
