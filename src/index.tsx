@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 
+import Constants from 'expo-constants'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -8,6 +9,7 @@ import { ThemeProvider } from 'styled-components'
 import { ModalPopup } from './components/ModalPopup/ModalPopup'
 import HomeScreen from './screen/HomeScreen/HomeScreen'
 import theme from './theme'
+import Storybook from '../.storybook'
 
 export default function App(): ReactElement {
   const [isReady, setIsReady] = useState(false)
@@ -45,12 +47,18 @@ export default function App(): ReactElement {
     return <></>
   }
 
-  return (
+  let AppEntryPoint = (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-      <ModalPopup />
+        <ModalPopup />
         <HomeScreen />
       </ThemeProvider>
     </GestureHandlerRootView>
   )
+  // Render Storybook if storybookEnabled is true
+  if (Constants.manifest?.extra?.storybookEnabled === 'true') {
+    AppEntryPoint = <Storybook />
+  }
+
+  return AppEntryPoint
 }
