@@ -1,3 +1,6 @@
+import theme from '../src/theme/index';
+import { ThemeProvider } from 'styled-components';
+
 export const parameters = {
   controls: {
     matchers: {
@@ -6,3 +9,11 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [
+  Story => (
+      <ThemeProvider theme={theme}>
+          <Story />
+      </ThemeProvider>
+  ),
+];
