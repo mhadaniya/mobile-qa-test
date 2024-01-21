@@ -1,5 +1,5 @@
-import theme from '../src/theme/index';
-import { ThemeProvider } from 'styled-components';
+import theme from "../src/theme/index";
+import { ThemeProvider } from "styled-components";
 
 export const parameters = {
   controls: {
@@ -11,9 +11,9 @@ export const parameters = {
 };
 
 export const decorators = [
-  Story => (
-      <ThemeProvider theme={theme}>
-          <Story />
-      </ThemeProvider>
+  (Story) => (
+    <ThemeProvider theme={theme}>
+      <Story />
+    </ThemeProvider>
   ),
 ];
