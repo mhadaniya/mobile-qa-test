@@ -95,7 +95,7 @@ describe('DailyTemperature component', () => {
     })
   })
 
-  it('valida se o ícone bigRainDrop está sendo renderizado', () => {
+  it('validates that the bigRainDrop icon is being rendered', () => {
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
         <DailyTemperatureStory />
