@@ -50,6 +50,7 @@ const getStories = () => {
     "./.storybook/stories/Header/Header.stories.tsx": require("../src/components/Header/Header.stories.tsx"),
     "./.storybook/stories/Picker/PickerLocation.stories.tsx": require("../src/components/Picker/PickerLocation.stories.tsx"),
     "./.storybook/stories/DailyTemperature/DailyTemperature.stories.tsx": require("../src/components/DailyTemperature/DailyTemperature.stories.tsx"),
+    "./.storybook/stories/Loading/LoadingRequest.stories.tsx": require("../src/components/Loading/LoadingRequest.stories.tsx"),
   };
 };
 
