@@ -25,12 +25,13 @@ export default function DailyTemperature(): React.ReactElement {
       </ContainerTitleCard>
 
       <FlatList
+        testID='flatList'
         data={forecast}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.date.toString()}
         horizontal
         renderItem={({ item }) => (
-          <Content color={compareDate(item.date)}>
+          <Content testID='contentFlatList' color={compareDate(item.date)}>
             <TextTime>{item.max}ºC</TextTime>
             {setIcons(item.description)}
             <TextDate>{item.date}</TextDate>
