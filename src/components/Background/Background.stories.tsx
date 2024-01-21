@@ -5,7 +5,7 @@ import { Meta } from '@storybook/react-native'
 import Background from './Background'
 
 export default {
-  title: 'Components/PickerLocation',
+  title: 'Components/Background',
   component: Background
 } as Meta
 
