@@ -78,7 +78,7 @@ git clone https://github.com/ermessonlima/mobile-weather-app.git
 5. Navegue até a pasta do projeto clonado e instale as dependências:
 
 ```bash
-cd mobile-weather-app
+cd mobile-qa-test
 yarn install
 ```
 
@@ -110,3 +110,29 @@ Para o teste, queremos que você aplique seus conhecimentos e melhore os testes 
 Ficamos no aguardo do seu envio!
 
 Se divirta no processo e boa sorte! 🍀
+
+## Instruções para executar os testes
+
+1. Navegue até a pasta do projeto clonado e instale as dependências:
+
+```bash
+cd mobile-qa-test
+yarn install
+```
+
+2. Execute os testes unitários
+
+```bash
+yarn test
+```
+
+3. Configure a variável de ambiente do Storybook
+
+Configure a variável de ambiente para ativar o storybook no projeto. Você precisa adicionar ao arquivo `.env`:
+
+`process.env.STORYBOOK_ENABLED="true"`
+
+4. Visualize os componentes no Storybook
+```bash
+yarn start
+```
