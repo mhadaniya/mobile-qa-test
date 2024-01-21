@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import PickerLocation from '@components/Picker/PickerLocation'
 import { render, fireEvent } from '@testing-library/react-native'
 import { ThemeProvider } from 'styled-components/native'
 
+import { Default as PickerLocationStory } from '../../../components/Picker/PickerLocation.stories'
 import theme from '../../../theme'
 
 jest.mock('@assets/icons/icon', () => {
@@ -18,7 +18,7 @@ describe('PickerLocation component', () => {
   it('renders correctly', () => {
     const { getByText } = render(
       <ThemeProvider theme={theme}>
-        <PickerLocation onOpen={() => {}} />
+        <PickerLocationStory onOpen={() => {}} />
       </ThemeProvider>
     )
 
@@ -29,7 +29,7 @@ describe('PickerLocation component', () => {
     const onOpen = jest.fn()
     const { getByTestId } = render(
       <ThemeProvider theme={theme}>
-        <PickerLocation onOpen={onOpen} />
+        <PickerLocationStory onOpen={onOpen} />
       </ThemeProvider>
     )
 
