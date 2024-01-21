@@ -1,63 +1,48 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 
-import { render, fireEvent } from '@testing-library/react-native'
+import { render, RenderResult, fireEvent } from '@testing-library/react-native'
 import { ThemeProvider } from 'styled-components/native'
 
 import { IIcon } from '../../../@types/types'
 import { Default as HeaderStory } from '../../../components/Header/Header.stories'
 import theme from '../../../theme'
 
-jest.mock('@assets/icons/icon', () => {
-  return {
-    Icon: ({ icon, width }: IIcon): ReactElement => {
-      return <mock-icon testID="mock-icon" icon={icon} width={width} />
-    }
-  }
-})
+jest.mock('@assets/icons/icon', () => ({
+  Icon: ({ icon, width }: IIcon) => (
+    <mock-icon testID="mock-icon" icon={icon} width={width} />
+  )
+}))
 
 describe('Header', () => {
-  it('must have a Container with the correct testID', () => {
-    const { getByTestId } = render(
+  const renderHeader = (onOpen = jest.fn()): RenderResult =>
+    render(
       <ThemeProvider theme={theme}>
-        <HeaderStory onOpen={() => {}} />
+        <HeaderStory onOpen={onOpen} />
       </ThemeProvider>
     )
 
+  it('should have a Container with the correct testID', () => {
+    const { getByTestId } = renderHeader()
     expect(getByTestId('header')).toBeTruthy()
   })
 
-  it('must contain an icon with icon=bell and width=27', () => {
-    const { queryAllByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <HeaderStory onOpen={() => {}} />
-      </ThemeProvider>
-    )
-
-    const allIcons = queryAllByTestId('mock-icon')
-    const bellIcon = allIcons.find(
+  it('should contain a bell icon with width 27', () => {
+    const { queryAllByTestId } = renderHeader()
+    const bellIcon = queryAllByTestId('mock-icon').find(
       (icon) => icon.props.icon === 'bell' && icon.props.width === '27'
     )
     expect(bellIcon).toBeTruthy()
   })
 
-  it('must render the PickerLocation with the onOpen prop', () => {
+  it('should render the PickerLocation with the onOpen prop', () => {
     const onOpenMock = jest.fn()
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <HeaderStory onOpen={onOpenMock} />
-      </ThemeProvider>
-    )
-
+    const { getByTestId } = renderHeader(onOpenMock)
     expect(getByTestId('container')).toBeTruthy()
   })
 
-  it('must call onOpen when the PickerLocation is interacted with', () => {
+  it('should call onOpen when the PickerLocation is interacted with', () => {
     const onOpenMock = jest.fn()
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <HeaderStory onOpen={onOpenMock} />
-      </ThemeProvider>
-    )
+    const { getByTestId } = renderHeader(onOpenMock)
 
     fireEvent.press(getByTestId('container'))
     expect(onOpenMock).toHaveBeenCalled()

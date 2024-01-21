@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { render } from '@testing-library/react-native'
+import { render, RenderResult } from '@testing-library/react-native'
 import moment from 'moment'
 import { ThemeProvider } from 'styled-components/native'
 
@@ -11,7 +11,7 @@ jest.mock(
   '../../../components/DailyTemperature/DailyTemperature.controller',
   () => ({
     useDailyTemperature: () => ({
-      setIcons: jest.fn((text: string) => {
+      setIcons: jest.fn((text) => {
         const lowerText = text.toLowerCase()
         if (lowerText.includes('chuva')) {
           return <mock-icon testID="bigRainDrop" />
@@ -21,7 +21,6 @@ jest.mock(
           return <mock-icon testID="moon" />
         }
       }),
-
       compareDate: jest.fn(() => 'red'),
       forecast: [
         { date: '2021-01-01', max: 25, description: 'chuva' },
@@ -33,95 +32,59 @@ jest.mock(
 )
 
 describe('DailyTemperature component', () => {
-  it('must have a Container with the correct testID', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory onOpen={() => {}} />
-      </ThemeProvider>
-    )
-
-    expect(getByTestId('dailyTemperature')).toBeTruthy()
-  })
-
-  it('renders correctly', () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory onOpen={() => {}} />
-      </ThemeProvider>
-    )
-
-    expect(getByText('Today')).toBeTruthy()
-  })
-
-  it('should display current data correctly', () => {
-    const { getByText } = render(
+  const renderDailyTemperature = (): RenderResult =>
+    render(
       <ThemeProvider theme={theme}>
         <DailyTemperatureStory />
       </ThemeProvider>
     )
 
+  it('should have a Container with the correct testID', () => {
+    const { getByTestId } = renderDailyTemperature()
+    expect(getByTestId('dailyTemperature')).toBeTruthy()
+  })
+
+  it('should render correctly', () => {
+    const { getByText } = renderDailyTemperature()
+    expect(getByText('Today')).toBeTruthy()
+  })
+
+  it('should display current date correctly', () => {
+    const { getByText } = renderDailyTemperature()
     const currentDate = moment().format('MMMM, DD')
     expect(getByText(currentDate)).toBeTruthy()
   })
 
-  it('validates FlatList attributes', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory />
-      </ThemeProvider>
-    )
-
+  it('should validate FlatList attributes', () => {
+    const { getByTestId } = renderDailyTemperature()
     const flatList = getByTestId('flatList')
-
     expect(flatList.props.showsHorizontalScrollIndicator).toBeFalsy()
-
     expect(flatList.props.horizontal).toBeTruthy()
-
     expect(flatList.props.keyExtractor({ date: '2021-01-01' })).toBe(
       '2021-01-01'
     )
   })
 
-  it('validates Content color in FlatList', () => {
-    const { getAllByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory />
-      </ThemeProvider>
-    )
-
+  it('should validate Content color in FlatList', () => {
+    const { getAllByTestId } = renderDailyTemperature()
     const contents = getAllByTestId('contentFlatList')
-    contents.forEach((content: any) => {
+    contents.forEach((content) => {
       expect(content.props.color).toBe('red')
     })
   })
 
-  it('validates that the bigRainDrop icon is being rendered', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory />
-      </ThemeProvider>
-    )
-
+  it('should validate rendering of bigRainDrop icon', () => {
+    const { getByTestId } = renderDailyTemperature()
     expect(getByTestId('bigRainDrop')).toBeTruthy()
   })
 
-  it('validates that the sun icon is being rendered', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory />
-      </ThemeProvider>
-    )
-
+  it('should validate rendering of sun icon', () => {
+    const { getByTestId } = renderDailyTemperature()
     expect(getByTestId('sun')).toBeTruthy()
   })
 
-  it('validates that the moon icon is being rendered', () => {
-    const { getByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <DailyTemperatureStory />
-      </ThemeProvider>
-    )
-
+  it('should validate rendering of moon icon', () => {
+    const { getByTestId } = renderDailyTemperature()
     expect(getByTestId('moon')).toBeTruthy()
   })
 })

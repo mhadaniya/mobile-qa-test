@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { render } from '@testing-library/react-native'
+import { render, RenderResult } from '@testing-library/react-native'
 import { ThemeProvider } from 'styled-components/native'
 
 import { Default as BackgroundStory } from '../../../components/Background/Background.stories'
@@ -21,17 +21,22 @@ jest.mock('../../../components/Background/Background.controller', () => {
 })
 
 describe('Background Component', () => {
-  it('should have the correct colors prop', () => {
-    const { getByTestId } = render(
+  const renderBackground = (): RenderResult =>
+    render(
       <ThemeProvider theme={theme}>
         <BackgroundStory />
       </ThemeProvider>
     )
 
+  it('should have the correct colors prop', () => {
+    const { getByTestId } = renderBackground()
     expect(getByTestId('background')).toBeTruthy()
 
-    if (theme.COLORS.CONDITION !== 'rain') {
-      expect(Array.isArray(theme.COLORS.CONDITION)).toBe(true)
+    const isColorArray = Array.isArray(theme.COLORS.CONDITION)
+    const isRainCondition = theme.COLORS.CONDITION === 'rain'
+
+    if (!isRainCondition) {
+      expect(isColorArray).toBe(true)
       expect(
         theme.COLORS.CONDITION.every((color) => typeof color === 'string')
       ).toBe(true)

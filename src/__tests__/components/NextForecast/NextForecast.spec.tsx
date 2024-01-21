@@ -1,43 +1,31 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 
-import { render } from '@testing-library/react-native'
+import { render, RenderResult } from '@testing-library/react-native'
 import { ThemeProvider } from 'styled-components/native'
 
 import { IIcon } from '../../../@types/types'
 import { Default as NextForecastStory } from '../../../components/NextForecast/NextForecast.stories'
 import theme from '../../../theme'
 
-jest.mock('@assets/icons/icon', () => {
-  return {
-    Icon: ({ icon, width }: IIcon): ReactElement => {
-      return <mock-icon testID="mock-icon" icon={icon} width={width} />
-    }
-  }
-})
+jest.mock('@assets/icons/icon', () => ({
+  Icon: ({ icon, width }: IIcon) => (
+    <mock-icon testID="mock-icon" icon={icon} width={width} />
+  )
+}))
 
 jest.mock('../../../components/NextForecast/NextForecast.controller', () => ({
   useNextForecastController: jest.fn(() => ({
     setIcons: jest.fn(),
-    convertDayOfWeek: jest.fn((day) => {
-      switch (day) {
-        case 'Seg':
-          return 'Monday'
-        case 'Ter':
-          return 'Tuesday'
-        case 'Qua':
-          return 'Wednesday'
-        case 'Qui':
-          return 'Thursday'
-        case 'Sex':
-          return 'Friday'
-        case 'Sáb':
-          return 'Saturday'
-        case 'Dom':
-          return 'Sunday'
-        default:
-          return null
-      }
-    }),
+    convertDayOfWeek: (day) =>
+      ({
+        Seg: 'Monday',
+        Ter: 'Tuesday',
+        Qua: 'Wednesday',
+        Qui: 'Thursday',
+        Sex: 'Friday',
+        Sáb: 'Saturday',
+        Dom: 'Sunday'
+      }[day]),
     forecast: [
       { date: '2021-01-01', weekday: 'Dom', max: 30, min: 20 },
       { date: '2021-01-02', weekday: 'Seg', max: 28, min: 18 },
@@ -51,44 +39,40 @@ jest.mock('../../../components/NextForecast/NextForecast.controller', () => ({
 }))
 
 describe('NextForecast Component', () => {
-  it('must have a Container with the correct testID', () => {
-    const { getByTestId } = render(
+  const renderComponent = (): RenderResult =>
+    render(
       <ThemeProvider theme={theme}>
         <NextForecastStory />
       </ThemeProvider>
     )
 
+  it('should have a Container with the correct testID', () => {
+    const { getByTestId } = renderComponent()
     expect(getByTestId('nextForecast')).toBeTruthy()
   })
 
-  it('must contain an icon with icon=calendar and width=22', () => {
-    const { queryAllByTestId } = render(
-      <ThemeProvider theme={theme}>
-        <NextForecastStory />
-      </ThemeProvider>
-    )
-
-    const allIcons = queryAllByTestId('mock-icon')
-    const bellIcon = allIcons.find(
+  it('should contain an icon with icon=calendar and width=22', () => {
+    const { queryAllByTestId } = renderComponent()
+    const calendarIcon = queryAllByTestId('mock-icon').find(
       (icon) => icon.props.icon === 'calendar' && icon.props.width === '22'
     )
-    expect(bellIcon).toBeTruthy()
+    expect(calendarIcon).toBeTruthy()
   })
 
-  it('renders forecast data correctly', () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <NextForecastStory />
-      </ThemeProvider>
-    )
-    expect(getByText('Sunday')).toBeTruthy()
-    expect(getByText('Monday')).toBeTruthy()
-    expect(getByText('Tuesday')).toBeTruthy()
-    expect(getByText('Wednesday')).toBeTruthy()
-    expect(getByText('Thursday')).toBeTruthy()
-    expect(getByText('Friday')).toBeTruthy()
-    expect(getByText('Saturday')).toBeTruthy()
-    expect(getByText('30')).toBeTruthy()
-    expect(getByText('20')).toBeTruthy()
+  it('should render forecast data correctly', () => {
+    const { getByText } = renderComponent();
+    [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      '30',
+      '20'
+    ].forEach((text) => {
+      expect(getByText(text)).toBeTruthy()
+    })
   })
 })
