@@ -53,6 +53,8 @@
     "@storybook/addon-ondevice-actions": "^6.5.7",
     "@storybook/addon-ondevice-controls": "^6.5.7",
     "@storybook/react-native": "^6.5.7",
+    "@testing-library/jest-dom": "^6.2.0",
+    "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.1",
     "@types/react": "~18.0.14",
     "@types/react-native-dotenv": "^0.2.0",
@@ -92,6 +94,7 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ]
